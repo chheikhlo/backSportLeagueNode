@@ -1,4 +1,4 @@
 
 
 // - getBasket()
-// - addProductInBasket()
+// - addProductToHisBasket()
