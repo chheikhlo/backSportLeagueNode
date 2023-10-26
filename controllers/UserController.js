@@ -24,7 +24,7 @@ const registerUser = (req, res) => {
     const prenom = req.body.prenom;
     const email = req.body.email;
     const telephone = req.body.telephone;
-    const password = req.body.mot_de_passe;
+    const mot_de_passe = req.body.mot_de_passe;
     const roles = req.body.roles;
 
     const newUser = new Users({
@@ -32,7 +32,7 @@ const registerUser = (req, res) => {
         prenom,
         telephone,
         email,
-        password,
+        mot_de_passe,
         roles,
     })
     newUser.save()
