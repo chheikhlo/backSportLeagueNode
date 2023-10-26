@@ -12,7 +12,7 @@ const getProducts = (req, res) => {
 }
 // getProductsById()
 const getProductsById = (req, res) => {
-    Product.find({ "id": req.params.id })
+    Product.find({ "_id": req.params.id })
         .then(product => {
             res.status(200).json(product)
             console.log(product)
