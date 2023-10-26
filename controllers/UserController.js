@@ -18,6 +18,7 @@ const loginUser = (req, res) => {
             res.status(500).json({ error: 'Erreur de serveur' });
         });
 }
+
 // - registerUser()
 const registerUser = (req, res) => {
     const nom = req.body.nom;
