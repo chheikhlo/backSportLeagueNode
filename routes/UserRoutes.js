@@ -25,14 +25,14 @@ routerUser.post('/register', UserController.registerUser)
 
 // //Admin :
 
-// // - POST : '/add/product' : Ajouter un produit
-// routerUser.post('/add/product', UserController.postProducts)
+// // - POST : '/admin/add/product' : Ajouter un produit
+routerUser.post('/admin/add/product', UserController.addProduct)
 
 // // - PUT : '/put/:id' : modifier un produit
-// routerUser.put('/put/:id', UserController.putProducts)
+routerUser.put('/admin/put/product/:id', UserController.putProduct)
 
 // // - DELETE : '/delete/:id' : Supprimer Product
-// routerUser.delete('/delete/:id', UserController.deleteProducts)
+routerUser.delete('/admin/delete/product/:id', UserController.deleteProduct)
 
 
 module.exports = routerUser;
