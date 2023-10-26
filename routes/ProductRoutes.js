@@ -7,4 +7,5 @@ routerProduct.get('/', ProductController.getProducts)
 // Get un produit by Id
 routerProduct.get("/:id", ProductController.getProductsById)
 
+
 module.exports = routerProduct;
