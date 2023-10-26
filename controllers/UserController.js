@@ -28,7 +28,6 @@ const registerUser = (req, res) => {
     const email = req.body.email;
     const telephone = req.body.telephone;
     const mot_de_passe = req.body.mot_de_passe;
-    const roles = req.body.roles;
 
     const newUser = new Users({
         nom,
@@ -36,7 +35,6 @@ const registerUser = (req, res) => {
         telephone,
         email,
         mot_de_passe,
-        roles,
     })
     newUser.save()
         .then(user => {
@@ -84,7 +82,64 @@ const addCart = (req, res) => {
 // - deleteUser()
 
 //admin :
-// - postProducts()
-// - putProducts()
-// - deleteProducts()
-module.exports = { loginUser, registerUser, addCart };
+const addProduct = (req, res) => {
+
+    const nom = req.body.nom;
+    const image = req.body.image;
+    const sport = req.body.sport;
+    const quantite = req.body.quantite;
+    const prix = req.body.prix;
+
+    const newProduct = new Product({
+        nom,
+        image,
+        sport,
+        quantite,
+        prix,
+    })
+
+    newProduct.save()
+        .then(user => {
+            res.status(200).json({ message: 'Produit ajouter!' })
+            console.log(user)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(400).json({ error: 'Erreur client' });
+        });
+}
+
+
+// - putProduct()
+const putProduct = (req, res) => {
+
+    const id = req.params.id;
+
+    Product.findOneAndUpdate({ _id: id }, req.body)
+        .then(product => {
+            res.status(200).json(product)
+            console.log(product)
+        })
+        .catch(err => {
+            res.status(404).json({ notFound: 'Produit non trouvé' })
+        })
+}
+
+// - deleteProduct()
+
+const deleteProduct = (req, res) => {
+
+    const id = req.params.id;
+
+    Product.findByIdAndRemove(id)
+        .then(product => {
+            res.status(200).json({ message: 'Produit supprimé!' })
+            console.log(product)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Erreur de serveur' });
+        });
+}
+
+module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct };
