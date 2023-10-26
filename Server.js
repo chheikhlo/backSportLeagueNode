@@ -13,18 +13,14 @@ app.use(express.json())
 
 // Importation de mes routes
 const routesProduct = require('./routes/ProductRoutes')
-const routesUser = require('./routes/UserRoutes')
-const routesMember = require('./routes/MemberRoutes')
-const routesAdmin = require('./routes/AdminRoutes')
+// const routesUser = require('./routes/UserRoutes')
 
 // connexion database
 connect()
 
 // Utilisez les routes
 app.use('/products', routesProduct)
-app.use('/user', routesUser)
-app.use('/member', routesMember)
-app.use('/admin', routesAdmin)
+// app.use('/user', routesUser)
 
 
 app.listen(port, () => {
