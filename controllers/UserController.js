@@ -1,15 +1,13 @@
 const Users = require('../models/User')
 const Product = require('../models/Product')
 
-// Membre :
-// - loginUser()
+// Member :
 const loginUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.mot_de_passe;
     Users.findOne({ 'email': email, 'mot_de_passe': password })
         .then(user => {
             if (!user) {
-                // L'utilisateur n'a pas été trouvé
                 return res.status(404).json({ notFound: 'Utilisateur non trouvé' });
             }
             res.status(200).json(user)
@@ -21,7 +19,6 @@ const loginUser = (req, res) => {
         });
 }
 
-// - registerUser()
 const registerUser = (req, res) => {
     const nom = req.body.nom;
     const prenom = req.body.prenom;
@@ -82,7 +79,6 @@ const addProduct = (req, res) => {
 }
 
 
-// - putProduct()
 const putProduct = (req, res) => {
 
     const id = req.params.id;
@@ -96,8 +92,6 @@ const putProduct = (req, res) => {
             res.status(404).json({ notFound: 'Produit non trouvé' })
         })
 }
-
-// - deleteProduct()
 
 const deleteProduct = (req, res) => {
 

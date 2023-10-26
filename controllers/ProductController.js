@@ -1,5 +1,5 @@
 const Product = require('../models/Product');
-// getProducts()
+
 const getProducts = (req, res) => {
     Product.find()
         .then(product => {
@@ -10,7 +10,7 @@ const getProducts = (req, res) => {
             res.status(404).json({ notFound: 'Produit non trouvé!' })
         })
 }
-// getProductsById()
+
 const getProductsById = (req, res) => {
     Product.find({ "_id": req.params.id })
         .then(product => {
