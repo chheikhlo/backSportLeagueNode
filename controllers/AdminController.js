@@ -1,6 +1,0 @@
-
-
-
-// - postProducts()
-// - putProducts()
-// - deleteProducts()
