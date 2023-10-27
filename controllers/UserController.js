@@ -1,8 +1,7 @@
 const Users = require('../models/User')
 const Product = require('../models/Product')
 const Cart = require('../models/Cart')
-// Membre :
-// - loginUser()
+
 const loginUser = (req, res) => {
     const email = req.body.email;
     const password = req.body.mot_de_passe;
@@ -44,7 +43,7 @@ const registerUser = (req, res) => {
             res.status(400).json({ error: 'Erreur client' });
         });
 }
-// - addProductToHisBasket()
+
 const addCart = (req, res) => {
     const utilisateur_id = req.body.utilisateur_id;
     const produit_id = req.body.produit_id;
@@ -62,24 +61,7 @@ const addCart = (req, res) => {
     })
         .catch(err => console.error('Panier non trouvé:', err))
 }
-// - addProductToHisBasket()
-// const addProductToHisBasket = async (req, res) => {
-//     try {
-//         const membersWithProducts = await Users.find().populate('Cart'); // Utilisez la méthode populate pour obtenir les produits dans le panier de chaque membre.
-//         const filteredMembers = membersWithProducts.filter(member => member.cart.length > 0);
 
-//         res.json(filteredMembers);
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des membres avec des produits dans leur panier.' });
-//     }
-// }
-
-// // Bonus
-// - putUser()
-// - deleteUser()
-
-//admin manage product :
 const addProduct = (req, res) => {
 
     const nom = req.body.nom;
@@ -137,9 +119,6 @@ const deleteProduct = (req, res) => {
         });
 }
 
-// ----------Bonus----
-//admin manage users :
-
 const putUserByAdmin = (req, res) => {
 
     const id = req.params.id;
@@ -169,4 +148,4 @@ const deleteUserByAdmin = (req, res) => {
         });
 }
 
-module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin };
+module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin, addCart };

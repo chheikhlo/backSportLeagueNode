@@ -37,10 +37,8 @@ routerUser.post('/user/login', UserController.loginUser);
  */
 routerUser.post('/user/register', UserController.registerUser);
 
-// // - POST : '/' : S'inscrire un utilisateur
 routerUser.post('/register', UserController.registerUser)
-// Router pour le panier d'un membre
-routerUser.post('/cart', UserController.addCart)
+routerUser.post('/add/Cart', UserController.addCart)
 
 // // // Bonus
 // // - PUT : '/put/:id' : modifier mes infos
@@ -186,7 +184,4 @@ routerUser.delete('/admin/delete/user/:id', UserController.deleteUserByAdmin);
  */
 routerUser.put('/admin/put/user/:id', UserController.putUserByAdmin);
 
-
 module.exports = routerUser;
-
-

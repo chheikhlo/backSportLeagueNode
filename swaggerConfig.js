@@ -10,7 +10,7 @@ const options = {
         },
         servers: [
             {
-                url: 'http://localhost:9006',
+                url: 'http://localhost:9000',
                 description: 'Serveur local',
             },
         ],
