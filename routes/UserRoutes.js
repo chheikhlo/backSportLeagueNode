@@ -17,7 +17,7 @@ const routerUser = require('express').Router();
  *       500:
  *         description: Erreur serveur
  */
-routerUser.post('/login', UserController.loginUser);
+routerUser.post('/user/login', UserController.loginUser);
 
 /**
  * @swagger
@@ -35,7 +35,7 @@ routerUser.post('/login', UserController.loginUser);
  *       500:
  *         description: Erreur serveur
  */
-routerUser.post('/register', UserController.registerUser);
+routerUser.post('/user/register', UserController.registerUser);
 
 // // - POST : '/' : S'inscrire un utilisateur
 routerUser.post('/register', UserController.registerUser)
@@ -51,7 +51,7 @@ routerUser.post('/cart', UserController.addCart)
 
 /**
  * @swagger
- * /user/admin/add/product:
+ * /admin/add/product:
  *   post:
  *     summary: Ajouter un produit (admin)
  *     description: Permet à un administrateur d'ajouter un nouveau produit à la liste.
@@ -69,7 +69,7 @@ routerUser.post('/admin/add/product', UserController.addProduct);
 
 /**
  * @swagger
- * /user/admin/put/product/{id}:
+ * /admin/put/product/{id}:
  *   put:
  *     summary: Modifier un produit (admin)
  *     description: Permet à un administrateur de modifier un produit existant en fonction de son ID.
@@ -92,7 +92,7 @@ routerUser.put('/admin/put/product/:id', UserController.putProduct);
 
 /**
  * @swagger
- * /user/admin/delete/product/{id}:
+ * /admin/delete/product/{id}:
  *   delete:
  *     summary: Supprimer un produit (admin)
  *     description: Permet à un administrateur de supprimer un produit existant en fonction de son ID.
@@ -114,6 +114,78 @@ routerUser.put('/admin/put/product/:id', UserController.putProduct);
  *         description: Erreur serveur
  */
 routerUser.delete('/admin/delete/product/:id', UserController.deleteProduct);
+
+//BONUS
+
+/**
+ * @swagger
+ * /admin/delete/user/{id}:
+ *   delete:
+ *     summary: Supprimer un utilisateur
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID de l'utilisateur à supprimer
+ *     responses:
+ *       200:
+ *         description: Utilisateur supprimé avec succès
+ *       404:
+ *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.delete('/admin/delete/user/:id', UserController.deleteUserByAdmin);
+
+/**
+ * @swagger
+ * /admin/put/user/{id}:
+ *   put:
+ *     summary: Modifier un utilisateur
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         schema:
+ *           type: string
+ *         required: true
+ *         description: ID de l'utilisateur à modifier
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nom:
+ *                 type: string
+ *               prenom:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               mot_de_passe:
+ *                 type: string
+ *               roles:
+ *                 type: array
+ *             required:
+ *               - nom
+ *               - prenom
+ *               - email
+ *               - mot_de_passe
+ *     responses:
+ *       200:
+ *         description: Utilisateur modifié avec succès
+ *       404:
+ *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.put('/admin/put/user/:id', UserController.putUserByAdmin);
+
 
 module.exports = routerUser;
 

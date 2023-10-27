@@ -79,7 +79,7 @@ const addCart = (req, res) => {
 // - putUser()
 // - deleteUser()
 
-//admin :
+//admin manage product :
 const addProduct = (req, res) => {
 
     const nom = req.body.nom;
@@ -137,4 +137,36 @@ const deleteProduct = (req, res) => {
         });
 }
 
-module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct };
+// ----------Bonus----
+//admin manage users :
+
+const putUserByAdmin = (req, res) => {
+
+    const id = req.params.id;
+
+    Users.findOneAndUpdate({ _id: id }, req.body)
+        .then(user => {
+            res.status(200).json(user)
+            console.log(user)
+        })
+        .catch(err => {
+            res.status(404).json({ notFound: 'Produit non trouvé' })
+        })
+}
+
+const deleteUserByAdmin = (req, res) => {
+
+    const id = req.params.id;
+
+    Users.findByIdAndRemove(id)
+        .then(user => {
+            res.status(200).json({ message: 'Produit supprimé!' })
+            console.log(user)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Erreur de serveur' });
+        });
+}
+
+module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin };

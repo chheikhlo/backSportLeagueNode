@@ -21,7 +21,7 @@ const routesUser = require('./routes/UserRoutes')
 connect()
 
 app.use('/products', routesProduct)
-app.use('/user', routesUser)
+app.use('', routesUser)
 // Pour le swagger
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerConf));
 
