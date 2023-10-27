@@ -1,4 +1,6 @@
 const Users = require('../models/User')
+const Product = require('../models/Product')
+const Cart = require('../models/Cart')
 // Membre :
 // - loginUser()
 const loginUser = (req, res) => {
@@ -46,8 +48,36 @@ const registerUser = (req, res) => {
             res.status(400).json({ error: 'Erreur client' });
         });
 }
-// - getBasket()
 // - addProductToHisBasket()
+const addCart = (req, res) => {
+    const utilisateur_id = req.body.utilisateur_id;
+    const produit_id = req.body.produit_id;
+    const quantite = req.body.quantite;
+    const confirm_panier = req.body.confirm_panier;
+    const newPanier = new Cart({
+        utilisateur_id,
+        produit_id,
+        quantite,
+        confirm_panier
+    })
+    newPanier.save().then(cart => {
+        res.status(200).json(cart)
+        console.log(cart)
+    })
+        .catch(err => console.error('Panier non trouvé:', err))
+}
+// - addProductToHisBasket()
+// const addProductToHisBasket = async (req, res) => {
+//     try {
+//         const membersWithProducts = await Users.find().populate('Cart'); // Utilisez la méthode populate pour obtenir les produits dans le panier de chaque membre.
+//         const filteredMembers = membersWithProducts.filter(member => member.cart.length > 0);
+
+//         res.json(filteredMembers);
+//     } catch (error) {
+//         console.error(error);
+//         res.status(500).json({ error: 'Une erreur est survenue lors de la récupération des membres avec des produits dans leur panier.' });
+//     }
+// }
 
 // // Bonus
 // - putUser()
@@ -57,4 +87,4 @@ const registerUser = (req, res) => {
 // - postProducts()
 // - putProducts()
 // - deleteProducts()
-module.exports = { loginUser, registerUser };
+module.exports = { loginUser, registerUser, addCart };

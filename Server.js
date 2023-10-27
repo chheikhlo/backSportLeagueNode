@@ -23,6 +23,7 @@ app.use('/products', routesProduct)
 app.use('/user', routesUser)
 
 
+
 app.listen(port, () => {
     console.log(`Serveur à l'écoute sur le port ${port}`)
 });

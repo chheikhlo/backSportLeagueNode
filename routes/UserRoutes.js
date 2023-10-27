@@ -8,6 +8,8 @@ routerUser.post('/login', UserController.loginUser)
 
 // // - POST : '/' : S'inscrire un utilisateur
 routerUser.post('/register', UserController.registerUser)
+// Router pour le panier d'un membre
+routerUser.post('/cart', UserController.addCart)
 
 // // // Bonus
 // // - PUT : '/put/:id' : modifier mes infos
