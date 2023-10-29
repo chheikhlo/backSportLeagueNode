@@ -21,6 +21,7 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    total_prix_to_pay: Number,
     roles: {
         type: Array,
         default: ["Member"]

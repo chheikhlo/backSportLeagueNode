@@ -44,24 +44,6 @@ const registerUser = (req, res) => {
         });
 }
 
-const addCart = (req, res) => {
-    const utilisateur_id = req.body.utilisateur_id;
-    const produit_id = req.body.produit_id;
-    const quantite = req.body.quantite;
-    const confirm_panier = req.body.confirm_panier;
-    const newPanier = new Cart({
-        utilisateur_id,
-        produit_id,
-        quantite,
-        confirm_panier
-    })
-    newPanier.save().then(cart => {
-        res.status(200).json(cart)
-        console.log(cart)
-    })
-        .catch(err => console.error('Panier non trouvé:', err))
-}
-
 const addProduct = (req, res) => {
 
     const nom = req.body.nom;
@@ -119,6 +101,130 @@ const deleteProduct = (req, res) => {
         });
 }
 
+const addProductToHisBasket = async (req, res) => {
+
+    const { utilisateur_id, produit_id } = req.body;
+
+    const user = await Users.findById(utilisateur_id);
+    const product = await Product.findById(produit_id);
+
+    if (!user) {
+        return res.status(404).json({ message: 'Utilisateur non trouvé' });
+    }
+
+    if (!product) {
+        return res.status(404).json({ message: 'Produit non trouvé' });
+    }
+
+    user.total_prix_to_pay += product.prix;
+    product.quantite = product.quantite - 1;
+
+    if(product.quantite === 0){
+        product.deleteOne({quantite: 0})
+    }else{
+        product.save()
+    }
+
+    user.save()
+
+    const newCart = new Cart({
+        utilisateur_id: utilisateur_id,
+        produit_id: produit_id,
+        confirm_panier: false,
+    });
+
+    res.status(201).json(newCart.save());
+};
+
+const deleteCartUser = (req, res) => {
+    const id = req.params.id;
+
+    Users.findOne({ "_id": id })
+        .then(user => {
+            if (!user) {
+                return res.status(404).json({ error: 'Utilisateur non trouvé' });
+            }
+            Cart.deleteMany({ "utilisateur_id": user._id })
+                .then(deletedCart => {
+                    res.status(200).json({ message: "Panier(s) Supprimé(s)" });
+
+                    user.total_prix_to_pay = 0;
+                    user.save();
+
+                    console.log(deletedCart);
+                })
+                .catch(err => {
+                    console.error(err);
+                    res.status(500).json({ error: 'Erreur de serveur lors de la suppression du panier' });
+                });
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(400).json({ error: 'Erreur client lors de la recherche de l\'utilisateur' });
+        });
+};
+
+const getCartUser = async (req, res) => {
+    const id = req.params.id;
+
+    const cart = await Cart.find({ "utilisateur_id": id });
+
+    if (cart.length === 0) {
+        return res.status(404).json({ notFound: 'Produits non trouvés!' });
+    }
+
+    const productIds = cart.map(cart => cart.produit_id);
+    const products = await Product.find({ "_id": { $in: productIds } });
+
+    if (products.length === 0) {
+        return res.status(404).json({ notFound: 'Produits non trouvés!' });
+    }
+
+    res.status(200).json(products);
+}
+
+const getUsers = (req, res) => {
+    Users.find()
+        .then(users => {
+            if (users.length > 0) {
+                res.status(200).json(users);
+                console.log(users);
+            } else {
+                res.status(404).json({ notFound: 'Aucun membre trouvé ' });
+            }
+        })
+        .catch(err => {
+            res.status(500).json({ error: err.message });
+        })
+}
+
+const deleteUsers = (req, res) => {
+    const id = req.params.id;
+
+    Users.findByIdAndRemove(id)
+        .then(product => {
+            res.status(200).json({ message: 'Utilisateur supprimé!' })
+            console.log(product)
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ error: 'Erreur de serveur' });
+        });
+}
+
+const putUser = (req, res) => {
+    const id = req.params.id;
+
+    Users.findOneAndUpdate({ _id: id }, req.body)
+        .then(user => {
+            res.status(200).json(user)
+            console.log(user)
+        })
+        .catch(err => {
+            res.status(404).json({ notFound: 'Produit non trouvé' })
+        })
+}
+
 const putUserByAdmin = (req, res) => {
 
     const id = req.params.id;
@@ -139,7 +245,7 @@ const deleteUserByAdmin = (req, res) => {
 
     Users.findByIdAndRemove(id)
         .then(user => {
-            res.status(200).json({ message: 'Produit supprimé!' })
+            res.status(200).json({ message: 'Utilisateur supprimé!' })
             console.log(user)
         })
         .catch(err => {
@@ -148,4 +254,4 @@ const deleteUserByAdmin = (req, res) => {
         });
 }
 
-module.exports = { loginUser, registerUser, addProduct, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin, addCart };
+module.exports = { loginUser, putUser, deleteCartUser, deleteUsers, getUsers, addProduct, registerUser, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin, addProductToHisBasket, getCartUser };

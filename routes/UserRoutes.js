@@ -37,15 +37,168 @@ routerUser.post('/user/login', UserController.loginUser);
  */
 routerUser.post('/user/register', UserController.registerUser);
 
-routerUser.post('/register', UserController.registerUser)
-routerUser.post('/add/Cart', UserController.addCart)
+/**
+ * @swagger
+ * /delete/user/{id}:
+ *   delete:
+ *     summary: Supprimer le profil de l'utilisateur
+ *     description: Permet à un utilisateur de supprimer son propre profil en fonction de son ID.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de l'utilisateur à supprimer
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Profil de l'utilisateur supprimé avec succès
+ *       404:
+ *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.delete('/delete/user/:id', UserController.deleteUsers);
 
-// // // Bonus
-// // - PUT : '/put/:id' : modifier mes infos
-// routerUser.put('/put/:id', UserController.putUser)
+/**
+ * @swagger
+ * /put/user/{id}:
+ *   put:
+ *     summary: Modifier le profil de l'utilisateur
+ *     description: Permet à un utilisateur de modifier son propre profil en fonction de son ID.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de l'utilisateur à modifier
+ *         schema:
+ *           type: string
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               nom:
+ *                 type: string
+ *               prenom:
+ *                 type: string
+ *               email:
+ *                 type: string
+ *               mot_de_passe:
+ *                 type: string
+ *             required:
+ *               - nom
+ *               - prenom
+ *               - email
+ *               - mot_de_passe
+ *     responses:
+ *       200:
+ *         description: Profil de l'utilisateur modifié avec succès
+ *       404:
+ *         description: Utilisateur non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.put('/put/user/:id', UserController.putUser);
 
-// // - DELETE : '/delete/:id' : Supprimer mon compte
-// routerUser.delete('/delete/:id', UserController.deleteUser)
+/**
+ * @swagger
+ * /add/product/cart:
+ *   post:
+ *     summary: Ajouter un produit au panier de l'utilisateur
+ *     description: Permet à un utilisateur d'ajouter un produit à son panier.
+ *     tags:
+ *       - Users
+ *     requestBody:
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               productId:
+ *                 type: string
+ *             required:
+ *               - productId
+ *     responses:
+ *       200:
+ *         description: Produit ajouté au panier avec succès
+ *       400:
+ *         description: Erreur client
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.post('/add/product/cart', UserController.addProductToHisBasket);
+
+/**
+ * @swagger
+ * /user/get/cart/{id}:
+ *   get:
+ *     summary: Obtenir le contenu du panier de l'utilisateur
+ *     description: Permet à un utilisateur d'accéder au contenu de son panier en fonction de son ID.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de l'utilisateur
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Contenu du panier récupéré avec succès
+ *       404:
+ *         description: Panier non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.get('/user/get/cart/:id', UserController.getCartUser);
+
+/**
+ * @swagger
+ * /users:
+ *   get:
+ *     summary: Obtenir la liste des utilisateurs (admin)
+ *     description: Permet à un administrateur d'accéder à la liste des utilisateurs.
+ *     tags:
+ *       - Admin
+ *     responses:
+ *       200:
+ *         description: Liste des utilisateurs récupérée avec succès
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.get('/users', UserController.getUsers);
+
+/**
+ * @swagger
+ * /delete/cart/{id}:
+ *   delete:
+ *     summary: Confirmer et vider le panier de l'utilisateur
+ *     description: Permet à un utilisateur de confirmer son panier, vidant ainsi son contenu.
+ *     tags:
+ *       - Users
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID de l'utilisateur
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Panier confirmé et vidé avec succès
+ *       404:
+ *         description: Panier non trouvé
+ *       500:
+ *         description: Erreur serveur
+ */
+routerUser.delete('/delete/cart/:id', UserController.deleteCartUser);
 
 /**
  * @swagger

@@ -7,15 +7,11 @@ const CartSchema = new mongoose.Schema({
         ref: 'User'
     },
 
-    produit_id: {
+    produit_id: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Product'
-    },
-
-    quantite: Number,
-
+    }],
     confirm_panier: Boolean
 });
 
-module.exports = Cart = mongoose.model("Panier", CartSchema, "panier")
-
+module.exports = Cart = mongoose.model("Cart", CartSchema, "carts")

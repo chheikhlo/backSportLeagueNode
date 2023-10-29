@@ -4,7 +4,7 @@ const options = {
     swaggerDefinition: {
         openapi: '3.0.0',
         info: {
-            title: 'API  LSA Location',
+            title: 'API LSA Location',
             version: '1.0.0',
             description: "Documentation de l'API de LSA Location",
         },
