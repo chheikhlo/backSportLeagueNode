@@ -177,6 +177,29 @@ routerUser.get('/users', UserController.getUsers);
 
 /**
  * @swagger
+ * /users/{id}:
+ *   get:
+ *     summary: Get user by ID
+ *     description: Retrieve a user by their ID
+ *     tags:
+ *       - Admin
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID of the user to retrieve
+ *         schema:
+ *           type: string
+ *     responses:
+ *       '200':
+ *         description: A user object
+ *       '404':
+ *         description: User not found
+ */
+routerUser.get('/users/:id', UserController.getUserById);
+
+/**
+ * @swagger
  * /delete/cart/{id}:
  *   delete:
  *     summary: Confirmer et vider le panier de l'utilisateur

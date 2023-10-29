@@ -4,8 +4,8 @@ const Cart = require('../models/Cart')
 
 const loginUser = (req, res) => {
     const email = req.body.email;
-    const password = req.body.mot_de_passe;
-    Users.findOne({ 'email': email, 'mot_de_passe': password })
+    const mot_de_passe = req.body.mot_de_passe;
+    Users.findOne({ 'email': email, 'mot_de_passe': mot_de_passe })
         .then(user => {
             if (!user) {
                 return res.status(404).json({ notFound: 'Utilisateur non trouvé' });
@@ -125,7 +125,7 @@ const addProductToHisBasket = async (req, res) => {
         product.save()
     }
 
-    user.save()
+    await user.save()
 
     const newCart = new Cart({
         utilisateur_id: utilisateur_id,
@@ -133,7 +133,7 @@ const addProductToHisBasket = async (req, res) => {
         confirm_panier: false,
     });
 
-    res.status(201).json(newCart.save());
+    res.status(201).json( await newCart.save());
 };
 
 const deleteCartUser = (req, res) => {
@@ -198,6 +198,17 @@ const getUsers = (req, res) => {
         })
 }
 
+const getUserById = (req, res) => {
+    Users.find({ "_id": req.params.id })
+        .then(user => {
+            res.status(200).json(user)
+            console.log(user)
+        })
+        .catch(err => {
+            res.status(404).json({ notFound: 'User non trouvé' })
+        })
+}
+
 const deleteUsers = (req, res) => {
     const id = req.params.id;
 
@@ -254,4 +265,4 @@ const deleteUserByAdmin = (req, res) => {
         });
 }
 
-module.exports = { loginUser, putUser, deleteCartUser, deleteUsers, getUsers, addProduct, registerUser, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin, addProductToHisBasket, getCartUser };
+module.exports = { loginUser, putUser, deleteCartUser, getUserById, deleteUsers, getUsers, addProduct, registerUser, putProduct, deleteProduct, deleteUserByAdmin, putUserByAdmin, addProductToHisBasket, getCartUser };

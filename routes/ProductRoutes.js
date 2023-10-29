@@ -40,6 +40,6 @@ routerProduct.get('/', ProductController.getProducts);
  *       500:
  *         description: Erreur serveur
  */
-routerProduct.get('/:id', ProductController.getProductsById);
+routerProduct.get('/product-details/:id', ProductController.getProductsById);
 
 module.exports = routerProduct;
